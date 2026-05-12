@@ -6,6 +6,5 @@ useDataStream()
 </script>
 
 <template>
-  <div class="starfield" aria-hidden="true"></div>
   <DashboardView />
 </template>

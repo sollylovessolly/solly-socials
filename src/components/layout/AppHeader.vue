@@ -1,12 +1,19 @@
 ﻿<script setup lang="ts">
 import { computed } from 'vue'
-import { useNow } from '@vueuse/core'
+import { Moon, Sun } from 'lucide-vue-next'
+import { useDark, useNow, useToggle } from '@vueuse/core'
 import PlatformFilter from '../controls/PlatformFilter.vue'
 import StreamControls from '../controls/StreamControls.vue'
 import { useStreamStore } from '../../stores/streamStore'
 
 const stream = useStreamStore()
 const now = useNow({ interval: 1000 })
+const isDark = useDark({
+  selector: 'body',
+  valueDark: 'theme-dark',
+  valueLight: 'theme-light',
+})
+const toggleDark = useToggle(isDark)
 const uptime = computed(() => {
   const total = Math.floor((now.value.getTime() - stream.startTime) / 1000)
   const hours = String(Math.floor(total / 3600)).padStart(2, '0')
@@ -37,6 +44,11 @@ const uptime = computed(() => {
         <span class="status-dot" :class="{ live: stream.isLive }"></span>
         {{ stream.statusLabel }}
       </div>
+      <button class="theme-toggle" type="button" @click="toggleDark()">
+        <Moon v-if="isDark" :size="16" />
+        <Sun v-else :size="16" />
+        <span>{{ isDark ? 'Dark' : 'Light' }}</span>
+      </button>
     </div>
 
     <StreamControls />
