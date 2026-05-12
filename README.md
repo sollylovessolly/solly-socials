@@ -1,46 +1,65 @@
-<<<<<<< HEAD
-# solly socials
+﻿# Solly Social — Real-Time Social Media Analytics
 
-This template should help get you started developing with Vue 3 in Vite.
+Solly Social is a Vue 3 + TypeScript real-time analytics dashboard for monitoring live social media performance across Instagram, TikTok, Twitter/X, and YouTube. The product direction is a luxury editorial command center: deep burgundy surfaces, gold highlights, subtle stars, and high-density live analytics.
 
-## Recommended IDE Setup
+## Setup Instructions
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Recommended Browser Setup
-
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
-
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
+```bash
 npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+Production build:
 
-```sh
+```bash
 npm run build
 ```
-=======
-# Solly
->>>>>>> 24f90dd0d438081e3c6dde0a3d5466965e750faa
+
+## Architecture Explanation
+
+The app is organized around reusable dashboard sections:
+
+- `src/types` defines the typed data contracts for metrics, feed events, and platforms.
+- `src/stores` centralizes live dashboard state with Pinia.
+- `src/composables` contains reusable streaming, filtering, and ECharts configuration logic.
+- `src/components` holds focused UI components for layout, controls, metrics, charts, and feed items.
+- `src/views/DashboardView.vue` composes the dashboard page.
+
+## State Management Strategy
+
+Pinia is used as the central state layer:
+
+- `streamStore` tracks live/paused state, selected time range, selected platform, and uptime start time.
+- `metricsStore` owns follower totals, engagement rate, reach, impressions, viral score, platform engagement, chart history, and heatmap values.
+- `feedStore` owns the real-time activity feed and unread count.
+
+This keeps live data mutations out of presentation components and makes the app easier to scale.
+
+## Rendering Optimization Decisions
+
+- Historical chart arrays are capped at 500 points to prevent unbounded memory growth.
+- Activity feed events are capped at 100 items.
+- Streaming intervals are created in `useDataStream` and cleared in `onUnmounted`.
+- ECharts receives reactive option objects and uses canvas rendering for smooth updates.
+- Components are split by responsibility to avoid large, expensive re-renders.
+- Time range filtering happens in a composable before chart options are produced.
+
+## Data Streaming Approach
+
+The dashboard uses a mocked streaming generator because the challenge accepts simulated real-time streams. The generator runs on three intervals:
+
+- Every 2 seconds: followers, engagement, reach, feed events, and occasional spike events.
+- Every 3 seconds: platform engagement values and viral score recalculation.
+- Every 10 seconds: heatmap drift and occasional milestone/viral events.
+
+Pause/resume stops all visible data mutations while preserving the current dashboard state.
+
+## Error Handling And Stability
+
+Incoming simulated values are validated before mutation with numeric checks and clamping. Invalid events are ignored if required fields are missing. Intervals are cleaned up to avoid leaks, and arrays are trimmed continuously.
+
+## Trade-offs Made
+
+- The project uses mocked streaming data instead of WebSockets to keep the submission frontend-only and easy to run.
+- The heatmap is generated locally instead of using a larger analytics dataset.
+- Platform icons are lightweight text symbols to avoid extra asset complexity while preserving visual polish.
