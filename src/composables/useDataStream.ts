@@ -1,5 +1,4 @@
 ﻿import { onMounted, onUnmounted } from 'vue'
-import { toast } from 'vue-sonner'
 import { useFeedStore } from '../stores/feedStore'
 import { useMetricsStore } from '../stores/metricsStore'
 import { useStreamStore } from '../stores/streamStore'
@@ -53,9 +52,6 @@ export function useDataStream() {
   function pushEvent(template?: EventTemplate) {
     const event = createEvent(template)
     feed.addEvent(event)
-    if (event.type === 'viral' || event.type === 'milestone') {
-      toast(event.badge, { description: event.message })
-    }
   }
 
   function triggerSpike() {
@@ -92,41 +88,41 @@ export function useDataStream() {
   function tickMetrics() {
     if (!stream.isLive) return
 
-    metrics.updateFollowers(randomInt(1, 8))
-    metrics.updateEngagement(metrics.engagementRate + (Math.random() * 0.2 - 0.1))
-    metrics.updateReach(randomInt(500, 2000), spikeMultiplier)
+    metrics.updateFollowers(randomInt(1, 4))
+    metrics.updateEngagement(metrics.engagementRate + (Math.random() * 0.12 - 0.06))
+    metrics.updateReach(randomInt(350, 1200), spikeMultiplier)
     metrics.trimHistory()
 
     if (spikeCycles > 0) spikeCycles -= 1
     if (spikeCycles === 0) spikeMultiplier = 1
 
-    if (chance(0.3)) pushEvent()
-    if (chance(0.05)) triggerSpike()
+    if (chance(0.16)) pushEvent()
+    if (chance(0.025)) triggerSpike()
   }
 
   function tickPlatforms() {
     if (!stream.isLive) return
 
-    metrics.updatePlatform('instagram', randomInt(10, 80))
-    metrics.updatePlatform('tiktok', randomInt(20, 150))
-    metrics.updatePlatform('twitter', randomInt(5, 30))
-    metrics.updatePlatform('youtube', randomInt(15, 60))
-    metrics.updateViralScore(randomInt(-2, 2))
+    metrics.updatePlatform('instagram', randomInt(6, 36))
+    metrics.updatePlatform('tiktok', randomInt(10, 64))
+    metrics.updatePlatform('twitter', randomInt(3, 18))
+    metrics.updatePlatform('youtube', randomInt(7, 32))
+    metrics.updateViralScore(randomInt(-1, 1))
   }
 
   function tickHeatmap() {
     if (!stream.isLive) return
 
     metrics.updateHeatmap()
-    if (chance(0.2)) {
+    if (chance(0.1)) {
       pushEvent(chance(0.5) ? events[0] : events[5])
     }
   }
 
   onMounted(() => {
-    liveTimer = setInterval(tickMetrics, 2000)
-    platformTimer = setInterval(tickPlatforms, 3000)
-    heatmapTimer = setInterval(tickHeatmap, 10_000)
+    liveTimer = setInterval(tickMetrics, 5000)
+    platformTimer = setInterval(tickPlatforms, 7000)
+    heatmapTimer = setInterval(tickHeatmap, 15_000)
   })
 
   onUnmounted(() => {

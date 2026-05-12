@@ -155,9 +155,9 @@ export function useChartConfig() {
         min: 0,
         max: 100,
         show: false,
-        inRange: { color: ['#1A0F16', '#400010', '#800020', '#C9A84C', '#E8C96A'] },
+        inRange: { color: ['#0d1117', '#0e4429', '#006d32', '#26a641', '#39d353'] },
       },
-      series: [{ name: 'Best Posting Times', type: 'heatmap', data, emphasis: { itemStyle: { borderColor: '#E8C96A', borderWidth: 1 } } }],
+      series: [{ name: 'Best Posting Times', type: 'heatmap', data, emphasis: { itemStyle: { borderColor: '#39d353', borderWidth: 1 } } }],
     }
   })
 

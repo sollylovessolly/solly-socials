@@ -19,9 +19,8 @@ const uptime = computed(() => {
 <template>
   <header class="app-header glass-panel">
     <div class="brand-block">
-      <div class="brand-mark">★</div>
       <div>
-        <p class="eyebrow">Real-time command suite</p>
+        <p class="eyebrow">Analytics workspace</p>
         <h1>Solly Social</h1>
         <p class="tagline">Your audience, live.</p>
       </div>
