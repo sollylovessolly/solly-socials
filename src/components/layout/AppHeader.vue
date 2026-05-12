@@ -12,6 +12,8 @@ const isDark = useDark({
   selector: 'body',
   valueDark: 'theme-dark',
   valueLight: 'theme-light',
+  initialValue: 'light',
+  storageKey: 'solly-social-theme',
 })
 const toggleDark = useToggle(isDark)
 const uptime = computed(() => {

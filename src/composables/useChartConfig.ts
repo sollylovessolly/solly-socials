@@ -11,6 +11,8 @@ export function useChartConfig() {
     selector: 'body',
     valueDark: 'theme-dark',
     valueLight: 'theme-light',
+    initialValue: 'light',
+    storageKey: 'solly-social-theme',
   })
 
   const palette = computed(() => ({

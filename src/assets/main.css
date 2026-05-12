@@ -21,8 +21,7 @@
   font-family: 'Jost', sans-serif;
 }
 
-body.theme-dark,
-body:not(.theme-light) {
+body.theme-dark {
   --background: #061426;
   --surface: #1e0007;
   --surface-raised: #32000c;
@@ -271,15 +270,6 @@ h2 {
   transition: border-color 200ms ease, box-shadow 200ms ease;
 }
 
-.metric-card::before {
-  content: '';
-  position: absolute;
-  inset: 18px auto 18px 0;
-  width: 3px;
-  border-radius: 99px;
-  background: var(--gold-primary);
-}
-
 .metric-card:hover {
   border-color: var(--gold-primary);
 }
@@ -357,6 +347,7 @@ h2 {
 .activity-card {
   min-height: 410px;
   overflow: hidden;
+  border: 0;
   border-radius: 26px;
   padding: 20px;
 }
@@ -422,7 +413,6 @@ h2 {
   gap: 12px;
   align-items: start;
   border: 1px solid var(--border);
-  border-left: 3px solid var(--gold-primary);
   border-radius: 18px;
   padding: 12px;
   background: var(--surface-raised);
@@ -456,18 +446,6 @@ h2 {
   font-family: 'Fira Code', monospace;
   font-size: 0.74rem;
   white-space: nowrap;
-}
-
-.feed-item--growth {
-  border-left-color: var(--success);
-}
-
-.feed-item--alert {
-  border-left-color: var(--warning);
-}
-
-.feed-item--engage {
-  border-left-color: var(--burgundy-light);
 }
 
 .feed-enter-active,
